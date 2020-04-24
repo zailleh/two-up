@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>two-up</title>
+
+  <style>
+    html {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .coin {
+      width: 20vh;
+      height: 20vh;
+      border-radius: 50%;
+      background-color: sienna;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+
+    .board {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+      height: calc(100vh - 100px);
+    }
+
+    .controls, #gameState {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      font-size: 2em;
+    }
+
+    .bets {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    main {
+      width: 100vw;
+      height: 100vw;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="bets">
+      <h1>Two Up!</h1>
+      <div class="controls">
+        <label for="selectBet">Select Bet:&nbsp;</label>
+        <select name="selectBet" id="selectedBet">
+          <option value="heads">
+            Heads
+          </option>
+          <option value="tails">
+            Tails
+          </option>
+          <option value="ewan">
+            Ewan
+          </option>
+        </select>
+        <button id="placeBet">Place Bet</button>
+      </div>
+      <div id="gameState">
+
+      </div>
+    </div>
+    <div class="board">
+      <div class="coin" id="coin1"></div>
+      <div class="coin" id="coin2"></div>
+    </div>
+
+  </main>
+  <script>
+    const placeBetButton = document.getElementById('placeBet');
+    const selectedBet = document.getElementById('selectedBet');
+    const coin1 = document.getElementById('coin1');
+    const coin2 = document.getElementById('coin2');
+    const gameState = document.getElementById('gameState');
+    const coinFaces = ['heads', 'tails'];
+
+    let coin1Face, coin2Face;
+    let win;
+
+    function flipCoins() {
+      gameState.innerText = "Flipping Coins!";
+
+      coin1Face = coinFaces[Math.round(Math.random())];
+      coin2Face = coinFaces[Math.round(Math.random())];
+
+      coin1.innerText = coin1Face;
+      coin2.innerText = coin2Face;
+
+      const bet = selectedBet.value;
+      if (bet === 'ewan') {
+        win = coin1Face != coin2Face;
+      } else {
+        win = [coin1Face, coin2Face].every(face => face === selectedBet.value);
+      }
+
+      if (win) {
+        gameState.innerText = "WINNER!";
+      } else {
+        gameState.innerText = "YOU LOSE!";
+      }
+    }
+
+    placeBetButton.addEventListener('click', flipCoins);
+  </script>
+</body>
+</html>
